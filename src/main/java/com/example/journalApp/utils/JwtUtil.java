@@ -1,13 +1,12 @@
 package com.example.journalApp.utils;
 
-import com.example.journalApp.entity.User;
 import com.example.journalApp.services.UserDetailsServiceImpl;
-import com.example.journalApp.services.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,8 @@ public class JwtUtil {
     @Autowired
     private UserDetailsServiceImpl userDetail;
 
-    private final String SECRET_KEY = "d9f6b8a5e3c8f2aef948fcd9b231afda9e6c7a2b3c5e7d8f9a4e1b3c9d5a2f6c";
+    @Value("${jwt.secretKey}")
+    private String SECRET_KEY;
 
     public String generateToken(String userName) {
         Map<String, Object> claim = new HashMap<>();
