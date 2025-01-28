@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: Journal App
+
+  mail:
+    host: smtp.gmail.com
+    username: shaileshsingh23423@gmail.com
+    password: ezor wiss mhwk eawv
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  data:
+    redis:
+      url: redis://default:KJ5ysafMkxOrNidhCP4RCqRPOmn3NCMS@redis-15988.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:15988
+
+    mongodb:
+      uri: mongodb+srv://shaileshsingh23423:Shailesh%401611@cluster0.5b440hs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: journal_db
+      auto-index-creation: true
+
+  kafka:
+    bootstrap-servers: pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092
+
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username='ISLA37KVDYLKYKTL' password='OJRk/J4lBxe0N0viWJ6NuvbbdD1q0QfsLJYwtzxM22g7pklBIDL5KLwhdQPt/fjw';
+      session.timeout.ms: 45000
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      group-id: weekly-sentiment-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+
+weather:
+  api:
+    key: 9bb6c5f60a7542b59e260019251001
+
+
+
+
