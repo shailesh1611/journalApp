@@ -56,7 +56,7 @@ public class PublicController {
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         catch (Exception e) {
-            log.error("Error while logging in",e.getCause());
+            log.error("Error while logging in",e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
