@@ -21,14 +21,15 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class PublicController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    public PublicController(UserService userService, AuthenticationProvider authenticationProvider, JwtUtil jwtUtil) {
+        this.authenticationProvider = authenticationProvider;
+        this.jwtUtil = jwtUtil;
+        this.userService = userService;
+    }
 
     @GetMapping("/health-check")
     public String healthCheck() {

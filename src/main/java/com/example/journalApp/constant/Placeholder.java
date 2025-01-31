@@ -3,6 +3,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Placeholder {
-    public static String API_KEY = "<API_KEY>";
-    public static String CITY = "<CITY>";
+    private Placeholder() {}
+
+    public static final String API_KEY = "<API_KEY>";
+    public static final String CITY = "<CITY>";
+    public static final String AUTHORIZATION = "authorization";
 }

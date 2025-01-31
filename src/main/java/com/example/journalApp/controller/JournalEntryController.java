@@ -19,10 +19,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("journal")
 public class JournalEntryController {
+    private final JournalEntryService journalEntryService;
+    private final UserService userService;
+
     @Autowired
-    private JournalEntryService journalEntryService;
-    @Autowired
-    private UserService userService;
+    public JournalEntryController(JournalEntryService journalEntryService, UserService userService) {
+        this.userService = userService;
+        this.journalEntryService = journalEntryService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllJournalEntriesOfUser() {

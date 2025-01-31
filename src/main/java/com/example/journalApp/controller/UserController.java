@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final WeatherService weatherService;
 
-    @Autowired
-    private WeatherService weatherService;
+    public UserController(UserService userService, WeatherService weatherService) {
+        this.userService = userService;
+        this.weatherService = weatherService;
+    }
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User oldUser = userService.getUserByUserName(authentication.getName());
         oldUser.setUserName(user.getUserName());
@@ -33,14 +35,14 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteUser() {
+    public ResponseEntity<Void> deleteUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userService.deleteUserByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping
-    public ResponseEntity<?> gretting() throws JsonProcessingException {
+    public ResponseEntity<String> greeting() throws JsonProcessingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         WeatherResponse weather = weatherService.getWeather("New Delhi");
         String greeting = "";

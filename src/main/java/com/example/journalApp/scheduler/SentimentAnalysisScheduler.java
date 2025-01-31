@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,16 @@ import java.util.Map;
 @Component
 public class SentimentAnalysisScheduler {
 
-    @Autowired
-    private UserRepositoryImpl userRepository;
+    private final UserRepositoryImpl userRepository;
+    private final EmailService emailService;
+    private final KafkaTemplate<String, SentimentData> kafkaTemplate;
 
     @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private KafkaTemplate<String, SentimentData> kafkaTemplate;
+    SentimentAnalysisScheduler(UserRepositoryImpl userRepository, EmailService emailService, KafkaTemplate<String, SentimentData> kafkaTemplate) {
+        this.userRepository = userRepository;
+        this.emailService = emailService;
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     @Scheduled(cron="0 0 9 ? * SUN")
     public void sendEmailsToSentimentUsers() {
@@ -35,7 +38,7 @@ public class SentimentAnalysisScheduler {
 
         /* Sending email to users who opted for sentiment analysis if sentiments found */
         for (User user : userForSA) {
-            Map<Sentiment,Integer> sentimentCnt = new HashMap<>();
+            Map<Sentiment,Integer> sentimentCnt = new EnumMap<>(Sentiment.class);
 
             /* Get last 7 days user sentiment as list */
             List<Sentiment> sentiments = user.getJournalEntries()

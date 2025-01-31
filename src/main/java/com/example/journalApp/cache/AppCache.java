@@ -21,9 +21,12 @@ public class AppCache {
     }
 
     private final Map<String,String> appCache = new HashMap<>();
+    private ConfigJournalAppService configJournalAppService;
 
     @Autowired
-    private ConfigJournalAppService configJournalAppService;
+    public AppCache(ConfigJournalAppService configJournalAppService) {
+        this.configJournalAppService = configJournalAppService;
+    }
 
     @PostConstruct
     public void init() {

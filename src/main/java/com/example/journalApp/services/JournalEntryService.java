@@ -14,11 +14,14 @@ import java.util.Optional;
 @Service
 public class JournalEntryService {
 
-    @Autowired
-    private JournalEntryRepository journalEntryRepository;
+    private final JournalEntryRepository journalEntryRepository;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
+    public JournalEntryService(JournalEntryRepository journalEntryRepository, UserService userService) {
+        this.journalEntryRepository = journalEntryRepository;
+        this.userService = userService;
+    }
 
     public List<JournalEntry> getAllJournalEntries() {
         return journalEntryRepository.findAll();
@@ -41,7 +44,7 @@ public class JournalEntryService {
         User user = userService.getUserByUserName(username);
         boolean removed = user.getJournalEntries().removeIf(journalEntry -> journalEntry.getId().equals(id));
         if(!removed) {
-            throw new RuntimeException("Journal Entry not found");
+            throw new IllegalStateException("Journal Entry not found");
         }
         userService.addUser(user);
         journalEntryRepository.deleteById(id);

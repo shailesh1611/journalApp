@@ -1,7 +1,6 @@
 package com.example.journalApp.model;
 
 import lombok.*;
-import org.springframework.kafka.annotation.EnableKafka;
 
 @Getter
 @Setter

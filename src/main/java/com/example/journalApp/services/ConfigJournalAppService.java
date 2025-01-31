@@ -9,8 +9,12 @@ import java.util.List;
 
 @Service
 public class ConfigJournalAppService {
+    private final ConfigJournalAppRepository configJournalAppRepository;
+
     @Autowired
-    ConfigJournalAppRepository configJournalAppRepository;
+    public ConfigJournalAppService(ConfigJournalAppRepository configJournalAppRepository) {
+        this.configJournalAppRepository = configJournalAppRepository;
+    }
 
     public List<ConfigJournalApp> getAllConfigJournalApp() {
         return configJournalAppRepository.findAll();

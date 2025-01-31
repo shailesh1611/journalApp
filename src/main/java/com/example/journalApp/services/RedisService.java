@@ -10,8 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisService {
+    private final RedisTemplate<String,String> redisTemplate;
+
     @Autowired
-    private RedisTemplate redisTemplate;
+    public RedisService(RedisTemplate<String,String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public <T> T get(String key, Class<T> entity) throws JsonProcessingException {
         Object o = redisTemplate.opsForValue().get(key);

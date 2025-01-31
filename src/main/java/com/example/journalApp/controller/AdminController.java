@@ -13,11 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AppCache appCache;
 
     @Autowired
-    private AppCache appCache;
+    public AdminController(AppCache appCache, UserService userService) {
+        this.appCache = appCache;
+        this.userService = userService;
+    }
 
     @GetMapping("/all-users")
     public ResponseEntity<List<User>> getAllUsers() {
