@@ -21,8 +21,7 @@ public class RedisService {
         Object o = redisTemplate.opsForValue().get(key);
         if(o != null) {
             ObjectMapper mapper = new ObjectMapper();
-            T t = mapper.readValue(o.toString(), entity);
-            return t;
+            return mapper.readValue(o.toString(), entity);
         }
         return null;
     }

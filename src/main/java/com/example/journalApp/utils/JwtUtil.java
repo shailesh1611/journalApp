@@ -18,11 +18,15 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    @Autowired
     private UserDetailsServiceImpl userDetail;
 
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
+
+    @Autowired
+    public JwtUtil(UserDetailsServiceImpl userDetail) {
+        this.userDetail = userDetail;
+    }
 
     public String generateToken(String userName) {
         Map<String, Object> claim = new HashMap<>();
@@ -53,8 +57,7 @@ public class JwtUtil {
                 .parseSignedClaims(token); // Parses the token and checks the signature
             return true; // If no exceptions, the token is valid
         } catch (JwtException e) {
-            System.out.println("Invalid JWT: " + e.getMessage());
-            return false; // Token is invalid or expired
+            throw new JwtException("Invalid JWT : " + e.getMessage());
         }
     }
 
